@@ -1,0 +1,53 @@
+{
+  "name": "mod-ui-automation",
+  "version": "1.0.0",
+  "description": "mod-ui-automation",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "rm -rf cypress/screenshots cypress/videos cypress/test-results cypress/auth-chrome-script cypress/auth-firefox-script",
+    "mod:script:headless": "dotenv -- cross-var cypress-tags run -e TAGS=@%FEATURE% --browser %BROWSER% --headless",
+    "mod:test:gui": "dotenv -- cross-var cypress-tags run -e TAGS=@test --browser %BROWSER% --headed --no-exit",
+    "mod:report": "npm run report:html && npm run jira:qmetry",
+    "report:html": "node cypress/reporting/report.js",
+    "jira:qmetry": "cucumber-json-merge -d cypress/test-results/cucumber-json/ && mv merged-test-results.json cypress/test-results/merged-test-results.json && node cypress/reporting/qmetry.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@auth0/auth0-spa-js": "^1.16.1",
+    "@cypress/code-coverage": "^3.10.0",
+    "arraybuffer-to-string": "1.0.2",
+    "browserslist": "^4.16.4",
+    "chokidar": "^3.5.2",
+    "cross-env": "^7.0.3",
+    "cross-var": "1.1.0",
+    "cucumber-json-merge": "^0.0.7",
+    "cypress": "latest",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-plugin-api": "latest",
+    "cypress10-cucumber-preprocessor": "1.0.1",
+    "dotenv": "^8.2.0",
+    "dotenv-cli": "3.0.0",
+    "eslint": "^8.43.0",
+    "eslint-plugin-cypress": "^2.13.0",
+    "jwt-decode": "^3.1.2",
+    "multiple-cucumber-html-reporter": "^1.18.0",
+    "node-fetch": "^2.6.7",
+    "node-rest-client": "3.1.1",
+    "node-xlsx": "^0.4.0",
+    "npm-run-all": "^4.1.0",
+    "set-value": "^4.1.0",
+    "shelljs": "^0.8.5",
+    "totp-generator": "^0.0.13",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
+  },
+  "cypress10-cucumber-preprocessor": {
+    "step_definitions": "cypress/support/steps",
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/test-results/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
+  }
+}
